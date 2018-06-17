@@ -1,5 +1,5 @@
 export class EndPoint{
-    baseEP = "";
+    baseEP = "http://localhost:45045/";
 
     saveModuleMenuEP=this.baseEP+"";
     getModuleMenuByIdEP=this.baseEP+"";
