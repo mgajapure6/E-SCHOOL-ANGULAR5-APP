@@ -29,7 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
         FormsModule,
         ReactiveFormsModule
     ],
-    providers: [ScriptLoaderService,ModuleMasterService],
+    providers: [ScriptLoaderService, ModuleMasterService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

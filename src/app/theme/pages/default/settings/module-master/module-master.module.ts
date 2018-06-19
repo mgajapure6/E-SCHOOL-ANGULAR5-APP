@@ -1,10 +1,10 @@
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LayoutModule } from './../../../../layouts/layout.module';
-import { DefaultComponent } from './../../default.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleMasterComponent } from './module-master.component';
+import { LayoutModule } from '../../../../layouts/layout.module';
+import { DefaultComponent } from '../../default.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
     {
@@ -21,7 +21,7 @@ const routes: Routes = [
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild(routes),
+        RouterModule.forChild(routes), 
         LayoutModule,
         FormsModule,
         ReactiveFormsModule

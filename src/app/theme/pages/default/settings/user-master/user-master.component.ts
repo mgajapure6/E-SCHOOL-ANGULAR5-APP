@@ -7,10 +7,10 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class UserMasterComponent implements OnInit {
 
-  constructor() { }
+    constructor() { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }
 

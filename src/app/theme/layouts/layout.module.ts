@@ -44,7 +44,7 @@ import { AsideNavService } from '../../_services/aside-nav.service';
         CommonModule,
         RouterModule,
     ],
-    providers:[
+    providers: [
         AsideNavService
     ]
 })

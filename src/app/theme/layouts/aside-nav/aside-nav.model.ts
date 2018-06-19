@@ -2,7 +2,7 @@ export class AsideNavModel {
     id: Number;
     menuName: String;
     hasSubmenu: boolean;
-    topMenuId:Number;
+    topMenuId: Number;
     routerLink: String;
     componentName: String;
     modulePath: String;
