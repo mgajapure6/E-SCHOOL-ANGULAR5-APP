@@ -1,11 +1,14 @@
+import { Entity } from './../../../../../_models/entity.model';
 import { ModuleMenu } from './module-menu.model';
 import { ModuleMasterService } from './module-master.service';
 import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Helpers } from '../../../../../helpers';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
-import { NgForm} from '@angular/forms';
-
-declare var $:JQueryStatic;
+import { NgForm } from '@angular/forms';
+import * as $ from 'jquery';
+import { CommonService } from '../../../../../_services/common.service';
+import { ToastrService } from 'ngx-toastr';
+//declare var $:JQueryStatic;
 
 @Component({
     selector: "module-master",
@@ -14,9 +17,9 @@ declare var $:JQueryStatic;
     styleUrls: ["./module-master.component.css"]
 })
 export class ModuleMasterComponent implements OnInit, AfterViewInit {
-
-    listOfModuleMenu : ModuleMenu[];
-    moduleMenu : ModuleMenu;
+    listOfEntity: any;
+    listOfModules: any[];
+    selectedModule: ModuleMenu;
 
     showTable: boolean;
     showForm: boolean;
@@ -24,119 +27,155 @@ export class ModuleMasterComponent implements OnInit, AfterViewInit {
     submitBtnName: string;
     flagVal: string;
     dataId: any;
+    statusArry:any[]=[
+        {
+            value:"Y",
+            name:"Active"
+        },
+        {
+            value:"N",
+            name:"Inactive"
+        }
+    ];
+    
+        
 
 
-    constructor(private _script: ScriptLoaderService, private moduleMasterService: ModuleMasterService) {
+    constructor(private _script: ScriptLoaderService,
+        private moduleMasterService: ModuleMasterService,
+        private commonService: CommonService,
+        private toastr: ToastrService) {
         this.showTable = true;
         this.showForm = false;
-        this.listOfModuleMenu = this.moduleMasterService.getModuleList();
+        
     }
     ngOnInit() {
         this.resetForm();
-        this.initTable();
     }
     ngAfterViewInit() {
-        this.loadScriptFiles();
+        this._script.loadScripts('module-master', //this parameter is always same as selector name in @component decorator
+            ['assets/vendors/custom/datatables/datatables.bundle.js']);
+        this.initData();
     }
 
     loadScriptFiles() {
+
+    }
+
+    initData() {
+        //code for getting Module list from commonService
+        this.commonService.getCodeList("null", 7).subscribe((res) => {
+            if (JSON.parse(res["codeList"]) == null || JSON.parse(res["codeList"]) == "") {
+                this.toastr.error('Failed', 'Unable to load Module list', {
+                    closeButton: true,
+                    positionClass: 'toast-bottom-right'
+                });
+            } else {
+                this.listOfModules = JSON.parse(res["codeList"]) as ModuleMenu[];
+            }
+            //console.log("listOfModules :"+this.listOfModules);
+        })
+        this.moduleMasterService.getModuleList().subscribe((res => {
+            // this.listOfModuleMenu = res["modules"] as ModuleMenu[];
+            console.log("ModuleLit : " + JSON.stringify(res["modules"]));
+        }));
+        this.moduleMasterService.getEntityList().subscribe((res => {
+            if (JSON.parse(res["entityList"]) == null || JSON.parse(res["entityList"]) == "") {
+                this.toastr.error('Failed', 'Unable to load Entity list', {
+                    closeButton: true,
+                    positionClass: 'toast-bottom-right'
+                });
+            } else {
+                this.listOfEntity = JSON.parse(res["entityList"]) as Entity[];
+            }
+        }));
+
         this._script.loadScripts('module-master', //this parameter is always same as selector name in @component decorator
-            ['assets/vendors/custom/datatables/datatables.bundle.js',
-                'assets/app/theme/pages/default/settings/module-master-script.js']);
-        $('.dataTables_filter').addClass('form-inline');
-        $('.dataTables_length').addClass('form-inline');
+            ['assets/app/theme/pages/default/settings/module-master-script.js']);
     }
 
-    initTable() {
-        this.listOfModuleMenu = this.moduleMasterService.getModuleList();
-    }
-
-    toggleTableAndForm(opFlag, id) {
-        this.dataId = id;
+    toggleTableAndForm(opFlag, module) {
+        //this.dataId = module.MODULE_ID;
         if (this.showTable && !this.showForm) {
-            if (id == 0 && opFlag == 'N') {
-                this.formTitle = 'Create New Module';
-                this.submitBtnName = 'Save Module';
-                this.flagVal = 'N';
+            if (module == null && opFlag == 'N') {
                 this.showTable = false;
                 this.showForm = true;
-            } else if (id != 0 && opFlag == 'E') {
+                this.resetForm();
+            } else if (module != null && opFlag == 'M') {
                 this.formTitle = 'Edit Module';
                 this.submitBtnName = 'Update Module';
-                this.flagVal = 'E';
+                this.flagVal = 'M';
                 this.showTable = false;
                 this.showForm = true;
-            } else if (id != 0 && opFlag == 'D') {
+                this.selectedModule = module;
+                this.selectedModule.OP_FLAG = this.flagVal;
+                this.selectedModule.IMG_DATA = "";
+            } else if (module != null && opFlag == 'D') {
                 this.formTitle = 'Delete Module';
                 this.submitBtnName = 'Delete Module';
                 this.flagVal = 'D';
                 this.showTable = false;
                 this.showForm = true;
+                this.selectedModule = module;
+                this.selectedModule.OP_FLAG = this.flagVal;
+                this.selectedModule.IMG_DATA = "";
             }
         } else {
-            this.loadScriptFiles();
+            this.selectedModule = null;
+            this.initData();
             this.showTable = true;
             this.showForm = false;
         }
     }
 
-    saveUpdateDeleteEntry(form: NgForm) {
-        if (this.flagVal == 'N') {
-            this.saveNewEntry(form);
-        } else if (this.flagVal == 'E') {
-            this.updateEntry(form);
-        } else if (this.flagVal == 'D') {
-            this.deleteEntry(form);
+    saveUpdateDeleteModule(form: NgForm) {
+        if (form) {
+            this.moduleMasterService.saveUpdateDeleteModule(this.selectedModule).subscribe((res) => {
+                console.log("responseObj :" + JSON.parse(res["responseObj"]));
+                console.log("responseObj status :" + JSON.parse(res["responseObj"]).status);
+                if (JSON.parse(res["responseObj"]).status=="success") {
+                    this.resetForm();
+                    this.toastr.success('Success', JSON.parse(res["responseObj"]).msg, {
+                        closeButton: true,
+                        positionClass: 'toast-top-right'
+                    });
+                } else {
+                    this.toastr.error('Failed', JSON.parse(res["responseObj"]).msg, {
+                        closeButton: true,
+                        positionClass: 'toast-top-right'
+                    });
+                }
+            });
+        } else {
+            this.toastr.error('Failed', 'You have form errors.', {
+                closeButton: true
+            });
         }
 
+
     }
 
-    saveNewEntry(form: NgForm) {
-        //alert('u click me for save, and data id is ::'+this.dataId);
-        this.moduleMasterService.saveModule(form.value).subscribe((res) => {
-            this.resetForm();
-        });
-    }
-
-    updateEntry(form: NgForm) {
-        this.moduleMasterService.updateModule(form.value).subscribe((res) => {
-            this.resetForm();
-        });
-    }
-
-    deleteEntry(form: NgForm) {
-        this.moduleMasterService.deleteModule(form.value).subscribe((res) => {
-            this.resetForm();
-        });
-    }
-
-
-    resetForm(form?: NgForm) {
-        if (form) {
-            form.reset();
-        } else {
-            this.moduleMenu = {
-                id: 0,
-                menuName: "",
-                hasSubmenu: false,
-                topMenuId: 0,
-                routerLink: "",
-                componentName: "",
-                modulePath: "",
-                errorPath: "",
-                notificationbBadgeNum: 0,
-                iconClass: "",
-                isDashboard: false,
-                createDate: null,
-                lastUpdateDate: null,
-                status: "",
-                sumMenus: null
-            }
+    resetForm() {
+        this.formTitle = 'Create New Module';
+        this.submitBtnName = 'Save Module';
+        this.flagVal = 'N';
+        this.selectedModule = {
+            MODULE_ID: "",
+            MODULE_NAME: "",
+            MODULE_NAME_OL: "",
+            STATUS: "",
+            ENTITY_ID: "",
+            ENTITY_NAME: "",
+            MODULE_SOURCE: "",
+            SEQ_NO: "",
+            MODULE_ICON: "",
+            OP_FLAG: this.flagVal,
+            IMG_DATA: ""
         }
     }
 
     onEdit(moduleMenu: ModuleMenu) {
-        this.moduleMenu = moduleMenu;
+
     }
 
 }

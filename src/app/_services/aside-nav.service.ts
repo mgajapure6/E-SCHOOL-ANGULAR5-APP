@@ -1,12 +1,17 @@
+import { EndPoint } from './../../Endpoints';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AsideNavModel } from "../theme/layouts/aside-nav/aside-nav.model";
 
 @Injectable()
 export class AsideNavService {
 
-    constructor() { }
+    constructor(private http: HttpClient, private ep: EndPoint) { }
 
     getModuleMenuList() {
+
+        //return this.http.get(this.ep.getModuleMenuListEP);
+
         return [
             {
                 id: 1,

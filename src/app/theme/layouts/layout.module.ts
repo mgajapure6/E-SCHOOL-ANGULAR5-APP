@@ -1,3 +1,4 @@
+import { CommonService } from './../../_services/common.service';
 import { NgModule } from '@angular/core';
 import { LayoutComponent } from './layout/layout.component';
 import { AsideLeftMinimizeDefaultEnabledComponent } from '../pages/aside-left-minimize-default-enabled/aside-left-minimize-default-enabled.component';
@@ -45,7 +46,8 @@ import { AsideNavService } from '../../_services/aside-nav.service';
         RouterModule,
     ],
     providers: [
-        AsideNavService
+        AsideNavService,
+        CommonService
     ]
 })
 export class LayoutModule {

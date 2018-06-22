@@ -1,3 +1,4 @@
+import { EndPoint } from './../Endpoints';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModuleMasterService } from './theme/pages/default/settings/module-master/module-master.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,6 +13,8 @@ import { ScriptLoaderService } from "./_services/script-loader.service";
 import { ThemeRoutingModule } from "./theme/theme-routing.module";
 import { AuthModule } from "./auth/auth.module";
 import { HttpClientModule } from '@angular/common/http';
+import { CommonService } from './_services/common.service';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
     declarations: [
@@ -27,9 +30,10 @@ import { HttpClientModule } from '@angular/common/http';
         AuthModule,
         HttpClientModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ToastrModule.forRoot(),
     ],
-    providers: [ScriptLoaderService, ModuleMasterService],
+    providers: [ScriptLoaderService, ModuleMasterService, EndPoint, CommonService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

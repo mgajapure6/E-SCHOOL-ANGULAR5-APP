@@ -1,0 +1,13 @@
+@keyframes slidein {
+    0%   {margin-left:2000px;}
+    100% {margin-left:0px;}
+}
+
+@keyframes fadein{
+    0%   { opacity: 0; }
+    100% { opacity: 1; }
+}
+.m-portlet {
+    animation-name: fadein;
+    animation-duration: 1.5s;
+}

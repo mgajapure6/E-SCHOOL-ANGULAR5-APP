@@ -1,0 +1,34 @@
+export class Entity {
+    ENTITY_ID: any;
+    ENTITY_CODE: any;
+    ENTITY_NAME: any;
+    ENTITY_NAME_OL: any;
+    ENTITY_SHORT_NAME: any;
+    ENTITY_START_DATE: any;
+    ESI_NO: any;
+    ADDRESS_1: any;
+    ADDRESS_1_OL: any;
+    CITY: any;
+    CITY_NAME: any;
+    CONTACT_EMAIL: any;
+    COUNTRY: any;
+    COUNTRY_NAME: any;
+    CST_NO: any;
+    DISTRICT: any;
+    DISTRICT_NAME: any;
+    OPERATION_ID: any;
+    PAN_NO: any;
+    PF_ESTABLISHMENT_CODE: any;
+    PF_EXTN_CODE: any;
+    PHONE_M: any;
+    PROF_TAX_NO: any;
+    REG_CODE: any;
+    SERVICE_TAX_REG_NO: any;
+    STATE: any;
+    STATE_NAME: any;
+    TAHASIL: any;
+    TAHASIL_NAME: any;
+    TAN_NO: any;
+    VAT_TIN_NO: any;
+    WEBSITE: any;
+}

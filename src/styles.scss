@@ -1,6 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import "~ngx-toastr/toastr.css";
 .dataTables_filter{
     float: right;
 }
 
+// input.ng-invalid.ng-dirty{
+//     border-color: red;
+// }
+
+button[type="submit"]:disabled{
+    cursor: not-allowed;
+}
+
+button:disabled{
+    cursor: not-allowed;
+}
+
+input[type="submit"]:disabled{
+    cursor: not-allowed;
+}
+
+input[type="button"]:disabled{
+    cursor: not-allowed;
+}

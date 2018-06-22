@@ -86,21 +86,18 @@
 	</div>
 </div>
 <!-- END: Subheader -->
-<div *ngIf="showTable" class="m-content">
+<div class="m-content">
 	<div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
 		<div class="m-alert__icon">
 			<i class="flaticon-exclamation m--font-brand"></i>
 		</div>
 		<div class="m-alert__text">
-			DataTables is a plug-in for the jQuery Javascript library. It is a highly flexible tool, based upon the foundations of progressive
-			enhancement, and will add advanced interaction controls to any HTML table. For more info see
-			<a href="https://datatables.net/">
-				the official home
-			</a>
-			of the plugin.
+			In module master, authorised user can manage modules for the application such as creating new module, updating existing module or deleteing existing module.
+			User also get reports for modules in export menu in module list. 
 		</div>
 	</div>
-	<div class="m-portlet m-portlet--mobile">
+	<!-- START TABLE PORTLET-->
+	<div *ngIf="showTable" class="m-portlet m-portlet--mobile">
 		<div class="m-portlet__head">
 			<div class="m-portlet__head-caption">
 				<div class="m-portlet__head-title">
@@ -112,7 +109,7 @@
 			<div class="m-portlet__head-tools">
 				<ul class="m-portlet__nav">
 					<li class="m-portlet__nav-item">
-						<a href="#" (click)="toggleTableAndForm('N',0);" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
+						<a href="#" (click)="toggleTableAndForm('N',null);" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
 							<span>
 								<i class="la la-plus"></i>
 								<span>
@@ -258,7 +255,7 @@
 		</div>
 		<div class="m-portlet__body">
 			<!--begin: Datatable -->
-			<table class="table table-striped- table-bordered table-hover table-checkable" id="m_table_2">
+			<table class="table table-striped- table-bordered table-hover table-responsive" id="m_table_2">
 				<thead>
 					<tr>
 						<th>
@@ -268,22 +265,16 @@
 							ModuleName
 						</th>
 						<th>
-							SubMenus
+							ModuleName OL
 						</th>
 						<th>
-							RouterLink
+							EntityName
 						</th>
 						<th>
-							ComponentName
+							ModuleSource
 						</th>
 						<th>
-							isDashboard
-						</th>
-						<th>
-							CreateDate
-						</th>
-						<th>
-							LastUpdateDate
+							Sequence No
 						</th>
 						<th>
 							Status
@@ -294,54 +285,60 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr *ngFor="let moduleMenu of listOfModuleMenu; let i=index">
+					<tr *ngFor="let moduleMenu of listOfModules; let i=index">
 						<td>
 							{{i+1}}
 						</td>
 						<td>
-							{{moduleMenu.menuName}}
+							{{moduleMenu.MODULE_NAME}}
 						</td>
 						<td>
-							<b *ngIf="moduleMenu.sumMenus==null; else actualSubmenuCount">0</b>
-							<ng-template #actualSubmenuCount>{{moduleMenu.sumMenus.length}}</ng-template>
+							{{moduleMenu.MODULE_NAME_OL}}
 						</td>
 						<td>
-							{{moduleMenu.routerLink}}
+							{{moduleMenu.ENTITY_NAME}}
 						</td>
 						<td>
-							{{moduleMenu.componentName}}
+							{{moduleMenu.MODULE_SOURCE}}
 						</td>
 						<td>
-							{{moduleMenu.isDashboard}}
+							{{moduleMenu.SEQ_NO}}
 						</td>
 						<td>
-							{{moduleMenu.createDate}}
+							{{moduleMenu.STATUS}}
 						</td>
 						<td>
-							{{moduleMenu.lastUpdateDate}}
+							<!-- <span class="dropdown">
+								<a href="#" class="btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" data-toggle="dropdown" aria-expanded="true">
+									<i class="la la-ellipsis-h"></i>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<a class="dropdown-item" href="#">
+										<i class="la la-leaf"></i> Update Status
+									</a>
+									<a class="dropdown-item" href="#">
+										<i class="la la-print"></i> Generate Report
+									</a>
+									<a class="dropdown-item" href="#">
+										<i class="la la-edit"></i> Hide row
+									</a>
+								</div>
+							</span> -->
+							<a href="#" (click)="toggleTableAndForm('M',moduleMenu)" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
+								<i class="la la-edit"></i>
+							</a>
+							<a href="#" (click)="toggleTableAndForm('D',moduleMenu)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">
+								<i class="la la-trash"></i>
+							</a>
 						</td>
-						<td>
-							{{moduleMenu.status}}
-						</td>
-						<td nowrap></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 	</div>
-	<!-- END EXAMPLE TABLE PORTLET-->
-</div>
-
-<div *ngIf="showForm" class="m-content">
-	<div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
-		<div class="m-alert__icon">
-			<i class="flaticon-exclamation m--font-brand"></i>
-		</div>
-		<div class="m-alert__text actionTitle">
-			Create New Module
-		</div>
-	</div>
-	<div class="m-portlet m-portlet--mobile">
+	<!-- END TABLE PORTLET-->
+	<!-- START FORM PORTLET-->
+	<div *ngIf="showForm" class="m-portlet m-portlet--mobile">
 		<div class="m-portlet__head">
 			<div class="m-portlet__head-caption">
 				<div class="m-portlet__head-title">
@@ -353,7 +350,7 @@
 			<div class="m-portlet__head-tools">
 				<ul class="m-portlet__nav">
 					<li class="m-portlet__nav-item">
-						<a href="#" (click)="toggleTableAndForm('',0);" class="btn btn-danger m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
+						<a href="#" (click)="toggleTableAndForm('',null);" class="btn btn-danger m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
 							<span>
 								<i class="la la-arrow-circle-o-left"></i>
 								<span>
@@ -427,49 +424,95 @@
 				</ul>
 			</div>
 		</div>
-		<form #moduleMasterForm="ngForm" (ngSubmit)="saveUpdateDeleteEntry(moduleMasterForm)" class="m-form m-form--fit m-form--label-align-right">
+		<form #moduleMasterForm="ngForm" (ngSubmit)="saveUpdateDeleteModule(moduleMasterForm)" class="m-form m-form--fit m-form--label-align-right" id="m_form_1">
 			<div class="m-portlet__body">
+					<div class="m-form__content">
+						<div class="m-alert m-alert--icon alert alert-danger m--hide" role="alert" id="m_form_1_msg">
+							<div class="m-alert__icon">
+								<i class="la la-warning"></i>
+							</div>
+							<div class="m-alert__text">
+								Something went worng. Please, try to correct following error.
+							</div>
+							<div class="m-alert__close">
+								<button type="button" class="close" data-close="alert" aria-label="Close"></button>
+							</div>
+						</div>
+					</div>
 				<div class="row">
-					<div class="col-md-4"></div>
-					<div class="col-md-8">
+					<div class="col-md-6 col-xl-6 col-sm-12 col-xs-12">
 						<div class="form-group m-form__group">
-							<label for="exampleInputEmail1">
-								Email address
+							<label for="moduleNameIdField">
+								Module Name <span style="color: red;">*</span>
 							</label>
-							<input type="email" class="form-control m-input m-input--square" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+							<input type="text" [(ngModel)]="selectedModule.MODULE_NAME" name="MODULE_NAME" maxlength="25" class="form-control m-input m-input--square" id="moduleNameIdField" aria-describedby="moduleNameHelp" placeholder="Enter Module Name" required>
 							<span class="m-form__help">
-								We'll never share your email with anyone else.
+								Pleae enter module name. eg: Library, Payroll etc
 							</span>
 						</div>
 						<div class="form-group m-form__group">
-							<label for="exampleInputPassword1">
-								Password
+							<label for="moduleNameOLIdField">
+								Module Name OL
 							</label>
-							<input type="password" class="form-control m-input m-input--square" id="exampleInputPassword1" placeholder="Password">
+							<input type="text" [(ngModel)]="selectedModule.MODULE_NAME_OL" name="MODULE_NAME_OL" maxlength="25" class="form-control m-input m-input--square" id="moduleNameOLIdField" aria-describedby="moduleNameOLHelp" placeholder="Enter Module Name in other language">
+							<span class="m-form__help">
+								Enter module name in any other language. eg: लाइब्रेरी, पेरोल etc
+							</span>
 						</div>
 						<div class="form-group m-form__group">
-							<label for="exampleSelect1">
-								Example select
+							<label for="entitySelectIdField">
+								Entity <span style="color: red;">*</span>
 							</label>
-							<select class="form-control m-input m-input--square" id="exampleSelect1">
-								<option>
-									1
+							<select [(ngModel)]="selectedModule.ENTITY_ID" name="ENTITY_ID" class="form-control m-input m-input--square" id="entitySelectIdField" required>
+								<option disabled="true" value="" [ngValue]="" selected>
+									Select Entity For Module
 								</option>
-								<option>
-									2
-								</option>
-								<option>
-									3
-								</option>
-								<option>
-									4
-								</option>
-								<option>
-									5
-								</option>
+								<option *ngFor="let entity of listOfEntity; let i=index" [ngValue]="entity.ENTITY_ID" >
+									{{entity.ENTITY_NAME | titlecase}}
+								</option> 
 							</select>
+							<span class="m-form__help">
+								Pleae select from witch entity this module belongs
+							</span>
 						</div>
 					</div>
+					<div class="col-md-6 col-xl-6 col-sm-12 col-xs-12">
+						<div class="form-group m-form__group">
+							<label for="moduleSourceIdField">
+								Module Source
+							</label>
+							<input type="text" [(ngModel)]="selectedModule.MODULE_SOURCE" name="MODULE_SOURCE" maxlength="25" class="form-control m-input m-input--square" id="moduleSourceIdField" aria-describedby="moduleSourceHelp" placeholder="Enter Module Source">
+							<span class="m-form__help">
+								Describe the source of module
+							</span>
+						</div>
+						<div class="form-group m-form__group">
+							<label for="moduleSeqNoIdField">
+								Sequence No
+							</label>
+							<input type="text" [(ngModel)]="selectedModule.SEQ_NO" name="SEQ_NO" maxlength="25" class="form-control m-input m-input--square" id="moduleSeqNoIdField" aria-describedby="moduleSeqNoHelp" placeholder="Enter Module Sequence No">
+							<span class="m-form__help">
+								Enter sequence no for module
+							</span>
+						</div>
+						<div class="form-group m-form__group">
+							<label for="statusSelectIdField">
+								Status <span style="color: red;">*</span>
+							</label>
+							<select [(ngModel)]="selectedModule.STATUS" name="STATUS" class="form-control m-input m-input--square" id="statusSelectIdField" required>
+								<option disabled="true" value="" [ngValue]="" selected>
+									Select Status
+								</option>
+								<option *ngFor="let stat of statusArry; let i=index" [ngValue]="stat.value">
+									{{stat.name}}
+								</option>
+							</select>
+							<span class="m-form__help">
+								Pleae select module is active or inactive
+							</span>
+						</div>
+					</div>
+					<div class="col-md-1"></div>
 				</div>
 			</div>
 			<div class="m-portlet__foot m-portlet__foot--fit">
@@ -480,7 +523,7 @@
 							<button type="submit" [disabled]="!moduleMasterForm.form.valid"  class="btn btn-outline-info m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
 								{{submitBtnName}}
 							</button>
-							<button type="button" (click)="resetForm(moduleMasterForm)" class="btn btn-secondary m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
+							<button type="button" (click)="resetForm()" class="btn btn-secondary m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
 								Reset
 							</button>
 						</div>
@@ -489,4 +532,18 @@
 			</div>
 		</form>
 	</div>
+	<!-- END FORM PORTLET-->
 </div>
+
+<!-- <div  class="m-content">
+	<div class="m-alert m-alert--icon m-alert--air m-alert--square alert alert-dismissible m--margin-bottom-30" role="alert">
+		<div class="m-alert__icon">
+			<i class="flaticon-exclamation m--font-brand"></i>
+		</div>
+		<div class="m-alert__text">
+			In module master, authorised user can manage modules for the application such as creating new module, updating existing module or deleteing existing module.
+			User also get reports for modules in export menu in module list. 
+		</div>
+	</div>
+	
+</div> -->
