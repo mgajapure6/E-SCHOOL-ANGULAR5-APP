@@ -4,10 +4,11 @@ import { ModuleMasterService } from './module-master.service';
 import { Component, OnInit, ViewEncapsulation, AfterViewInit } from '@angular/core';
 import { Helpers } from '../../../../../helpers';
 import { ScriptLoaderService } from '../../../../../_services/script-loader.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import * as $ from 'jquery';
 import { CommonService } from '../../../../../_services/common.service';
 import { ToastrService } from 'ngx-toastr';
+
 //declare var $:JQueryStatic;
 
 @Component({
@@ -37,16 +38,26 @@ export class ModuleMasterComponent implements OnInit, AfterViewInit {
             name:"Inactive"
         }
     ];
+
+    ngForm : FormGroup;
     
-        
-
-
+    
     constructor(private _script: ScriptLoaderService,
         private moduleMasterService: ModuleMasterService,
         private commonService: CommonService,
-        private toastr: ToastrService) {
+        private toastr: ToastrService,
+        private formBuilder : FormBuilder) {
         this.showTable = true;
         this.showForm = false;
+
+        this.ngForm = formBuilder.group({
+            MODULE_NAME : new FormControl('', Validators.required),
+            ENTITY_ID : new FormControl('', Validators.required),
+            STATUS : new FormControl('', Validators.required),
+            MODULE_NAME_OL: "",
+            MODULE_SOURCE: "",
+            SEQ_NO: "",
+        });
         
     }
     ngOnInit() {
@@ -77,7 +88,7 @@ export class ModuleMasterComponent implements OnInit, AfterViewInit {
         })
         this.moduleMasterService.getModuleList().subscribe((res => {
             // this.listOfModuleMenu = res["modules"] as ModuleMenu[];
-            console.log("ModuleLit : " + JSON.stringify(res["modules"]));
+            //console.log("ModuleLit : " + JSON.stringify(res["modules"]));
         }));
         this.moduleMasterService.getEntityList().subscribe((res => {
             if (JSON.parse(res["entityList"]) == null || JSON.parse(res["entityList"]) == "") {
@@ -160,7 +171,7 @@ export class ModuleMasterComponent implements OnInit, AfterViewInit {
         this.submitBtnName = 'Save Module';
         this.flagVal = 'N';
         this.selectedModule = {
-            MODULE_ID: "",
+            MODULE_ID: "0",
             MODULE_NAME: "",
             MODULE_NAME_OL: "",
             STATUS: "",
@@ -172,6 +183,7 @@ export class ModuleMasterComponent implements OnInit, AfterViewInit {
             OP_FLAG: this.flagVal,
             IMG_DATA: ""
         }
+        this.ngForm.markAsUntouched();
     }
 
     onEdit(moduleMenu: ModuleMenu) {

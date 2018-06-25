@@ -49,5 +49,4 @@ var formValidation={
 jQuery(document).ready(function() {
     DatatablesExtensionButtons.init();
     addClasses();
-    formValidation.init();
 });

@@ -1,3 +1,4 @@
+import { UserMenuMasterService } from './theme/pages/default/settings/user-menu-master/user-menu-master.service';
 import { EndPoint } from './../Endpoints';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModuleMasterService } from './theme/pages/default/settings/module-master/module-master.service';
@@ -31,9 +32,9 @@ import { ToastrModule } from 'ngx-toastr';
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        ToastrModule.forRoot(),
+        ToastrModule.forRoot()
     ],
-    providers: [ScriptLoaderService, ModuleMasterService, EndPoint, CommonService],
+    providers: [ScriptLoaderService, ModuleMasterService, UserMenuMasterService, EndPoint, CommonService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

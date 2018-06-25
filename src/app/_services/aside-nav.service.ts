@@ -86,6 +86,21 @@ export class AsideNavService {
                         routerLinkActive: "",
                         isDashboard: false,
                         sumMenus: null
+                    },
+                    {
+                        id: 4,
+                        menuName: "User Menu Master",
+                        hasSubmenu: false,
+                        topMenuId: 2,
+                        routerLink: "/settings/userMenuMaster",
+                        componentName: "UserMenuMasterComponent",
+                        modulePath: ".\/pages\/default\/settings\/user-menu-master\/user-menu-master.module#UserMenuMasterModule",
+                        errorPath: "",
+                        notificationbBadgeNum: 0,
+                        iconClass: "",
+                        routerLinkActive: "",
+                        isDashboard: false,
+                        sumMenus: null
                     }
                 ]
             },
@@ -114,6 +129,10 @@ export class AsideNavService {
             {
                 'path': 'settings\/userMaster',
                 'loadChildren': '.\/pages\/default\/settings\/user-master\/user-master.module#UserMasterModule',
+            },
+            {
+                'path': 'settings\/userMenuMaster',
+                'loadChildren': '.\/pages\/default\/settings\/user-menu-master\/user-menu-master.module#UserMenuMasterModule',
             },
             {
                 "path": "crud\/forms\/controls\/base",
