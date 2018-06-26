@@ -10,20 +10,28 @@ export class CommonService {
     }
 
     getCodeList(param, sqlMstId) {
-        var postParam = {
+        var postParameters = {
             "param": param,
             "sqlMstId": sqlMstId
-        }
+        };
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
             })
         };
-        return this.http.post(this.ep.getCodeListEP, { "param": param, "sqlMstId": sqlMstId }, httpOptions);
+        return this.http.post(this.ep.getCodeListEP, postParameters, httpOptions);
     }
 
 
     getHelpList(param) {
-
+        var postParameters = {
+            "param": param
+        };
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            })
+        };
+        return this.http.post(this.ep.getHelpListEP, postParameters, httpOptions);
     }
 }

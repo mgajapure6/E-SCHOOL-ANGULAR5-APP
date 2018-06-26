@@ -43,12 +43,8 @@ export class ModuleMasterService {
         return this.httpClient.get(this.ep.getEntityListEP);
     }
 
-    getModuleById(id: Number) {
-        return this.httpClient.post(this.ep.getModuleMenuByIdEP, id);
-    }
 
     saveUpdateDeleteModule(moduleMenu) {
-        console.log("ModuleMenu:"+JSON.stringify(moduleMenu));
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',

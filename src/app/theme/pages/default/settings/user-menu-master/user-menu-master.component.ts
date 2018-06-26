@@ -18,16 +18,21 @@ import { ToastrService } from 'ngx-toastr';
     styleUrls: ["./user-menu-master.component.css"]
 })
 export class UserMenuMasterComponent implements OnInit, AfterViewInit {
-    listOfEntity: any;
+    
+    listOfUsers:any[];
     listOfModules: any[];
     listOfMenus: any[];
+    listOfUserBranchDetail : any[];
     selectedModules: any[];
     selectedMenus: any[];
+    selectedUser: any;
 
     showTable: boolean;
     showForm: boolean;
     formTitle: string;
     submitBtnName: string;
+
+    ngForm : FormGroup;
     
     
     constructor(private _script: ScriptLoaderService,
@@ -36,6 +41,10 @@ export class UserMenuMasterComponent implements OnInit, AfterViewInit {
         private toastr: ToastrService) {
         this.showTable = true;
         this.showForm = false;
+        this.userMenuMasterService.getUserListByHelp().subscribe((res)=>{
+            //console.log("User list :"+res["helpList"]);
+            this.listOfUsers = res["helpList"];
+        });
     }
     ngOnInit() {
         this.resetForm();
@@ -53,19 +62,23 @@ export class UserMenuMasterComponent implements OnInit, AfterViewInit {
             ['assets/app/theme/pages/default/settings/user-menu-master-script.js']);
     }
 
-    toggleTableAndForm(opFlag, module) {
-        //this.dataId = module.MODULE_ID;
+    toggleTableAndForm(opFlag, user) {
         if (this.showTable && !this.showForm) {
-            if (module == null && opFlag == 'N') {
+            if (user == null && opFlag == 'N') {
                 this.showTable = false;
                 this.showForm = true;
                 this.resetForm();
-            } else if (module != null && opFlag == 'M') {
-                this.formTitle = 'Edit Module';
-                this.submitBtnName = 'Update Module';
+            } else if (user != null && opFlag == 'M') {
+                this.formTitle = 'Rights for '+user.prop3;
+                this.submitBtnName = 'Update Rights';
                 this.showTable = false;
                 this.showForm = true;
-            } else if (module != null && opFlag == 'D') {
+                this.selectedUser = user;//listOfUserBranchDetail
+                this.userMenuMasterService.getUserBranchList(user.prop2).subscribe((res)=>{
+                    //console.log("User list :"+res["helpList"]);
+                    this.listOfUserBranchDetail = JSON.parse(res["branchList"]);
+                });
+            } else if (user != null && opFlag == 'D') {
                 this.formTitle = 'Delete Module';
                 this.submitBtnName = 'Delete Module';
                 this.showTable = false;
@@ -78,7 +91,7 @@ export class UserMenuMasterComponent implements OnInit, AfterViewInit {
         }
     }
 
-    saveUpdateDeleteModule(form: NgForm) {
+    saveUpdateDeleteUserMenuRight(form: NgForm) {
         if (form) {
             
         } else {

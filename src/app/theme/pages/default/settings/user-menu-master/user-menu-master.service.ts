@@ -12,8 +12,21 @@ export class UserMenuMasterService {
 
     }
 
-    getModuleList() {
-        return this.httpClient.get(this.ep.getModuleMenuListEP);
+    getUserListByHelp() {
+        var helpCode="ADUSERHELP~ and u.op_branch_mst_id = 11";
+        return this.commonService.getHelpList(helpCode);
+    }
+
+    getUserBranchList(userId){
+        var postParameters = {
+            "userId": userId
+        };
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            })
+        };
+        return this.httpClient.post(this.ep.getUserBranchListEP,postParameters,httpOptions);
     }
 
  
