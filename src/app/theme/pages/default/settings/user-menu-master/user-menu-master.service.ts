@@ -13,11 +13,11 @@ export class UserMenuMasterService {
     }
 
     getUserListByHelp() {
-        var helpCode="ADUSERHELP~ and u.op_branch_mst_id = 11";
+        var helpCode = "ADUSERHELP~ and u.op_branch_mst_id = 11";
         return this.commonService.getHelpList(helpCode);
     }
 
-    getUserBranchList(userId){
+    getUserBranchList(userId) {
         var postParameters = {
             "userId": userId
         };
@@ -26,9 +26,9 @@ export class UserMenuMasterService {
                 'Content-Type': 'application/json',
             })
         };
-        return this.httpClient.post(this.ep.getUserBranchListEP,postParameters,httpOptions);
+        return this.httpClient.post(this.ep.getUserBranchListEP, postParameters, httpOptions);
     }
 
- 
+
 
 }

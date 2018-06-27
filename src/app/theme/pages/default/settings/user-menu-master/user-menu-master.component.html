@@ -257,52 +257,26 @@
 		</div>
 		<div class="m-portlet__body">
 			<!--begin: Datatable -->
-			<table *ngIf="showTable" class="table table-striped- table-bordered table-hover" id="m_table_user">
+			<table class="table table-striped- table-bordered table-hover" id="m_table_user">
 				<thead>
 					<tr>
-						<th>
-							SN
-						</th>
-						<th>
-							User Code
-						</th>
-						<th>
-							User Name
-						</th>
-						<th>
-							Employee Name
-						</th>
-						<th>
-							Department
-						</th>
-						<th>
-							Designaton<!-- Branch  -->
-						</th>
-						<th>
-							Actions
-						</th>
+						<th>SN</th>
+						<th>User Code</th>
+						<th>User Name</th>
+						<th>Employee Name</th>
+						<th>Department</th>
+						<th>Designaton<!-- Branch  --></th>
+						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr *ngFor="let user of listOfUsers; let i=index">
-						<td>
-							{{i+1}}
-						</td>
-						<td>
-							{{user.prop2}}
-						</td>
-						<td>
-							{{user.prop3}}
-						</td>
-						<td>
-							{{user.prop5}}
-						</td>
-						<td>
-							{{user.prop6}}
-						</td>
-						<td>
-							{{user.prop7}}
-						</td>
+						<td>{{i+1}}</td>
+						<td>{{user.prop2}}</td>
+						<td>{{user.prop3}}</td>
+						<td>{{user.prop5}}</td>
+						<td>{{user.prop6}}</td>
+						<td>{{user.prop7}}</td>
 						<td>
 							<a href="#" (click)="toggleTableAndForm('M',user)" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Edit">
 								<i class="la la-edit"></i>
@@ -422,11 +396,13 @@
 							<p><b *ngIf="selectedUser.prop7; else labelNotFound">{{selectedUser.prop7}}</b></p>
 							<label>Branch</label>
 							<div class="form-group m-form__group">
-								<select name="BRANCH_MST_ID" class="form-control m-input m-input--square" 
+								<select [(ngModel)]="defaultBranchId" name="BRANCH_MST_ID" class="form-control m-input m-input--square" 
 									id="branchMstIdField">
-									<option *ngFor="let branch of listOfUserBranchDetail; let i=index" [ngValue]="branch.BRANCH_MST_ID" >
-										{{branch.BRANCH | titlecase}}
-									</option> 
+									<ng-container *ngFor="let branch of listOfUserBranchDetail; let i=index">
+										<option  [ngValue]="branch.BRANCH_MST_ID" >
+											{{branch.BRANCH | titlecase}}
+										</option> 
+									</ng-container>
 								</select>
 							</div>
 						</div>
@@ -436,72 +412,27 @@
 				</div>
 				<div class="col-md-12 col-xl-12 col-sm-12 col-xs-12">
 					<h6>Module List</h6>
-					<hr>
-					<div class="table-responsive">
-						<table class="table table-striped- table-bordered table-hover" id="m_table_module">
+					<hr><!-- style="display: block; min-height: 300px; max-height: 400px; overflow-y: auto" -->
+					<div class="table-responsive" >
+						<table class="table table-striped- table-bordered table-hover m_table_module" id="m_table_module" >
 							<thead>
 								<tr>
 									<th>SN</th>
 									<th>ModuleName</th>
-									<th>ModuleName OL</th>
-									<th>EntityName</th>
-									<th>Status</th>
-									<th>Approve</th>
+									<th>isApproved</th>
 								</tr>
 							</thead>
-								<tr>
-									<td>SN</td>
-									<td>ModuleName</td>
-									<td>ModuleName OL</td>
-									<td>EntityName</td>
-									<td>Status</td>
+							<tbody >
+								<tr *ngFor="let module of listOfModules; let i = index">
+									<td>{{i+1}}</td>
+									<td>{{module.MODULE_NAME}}</td>
 									<td style="text-align: center">
 										<label class="m-checkbox m-checkbox--success m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
+											<input type="checkbox" value="{{module.MODULE_CHKED}}" [(ngModel)]="module.IS_CHECKED">
 											<span></span>
 										</label>
 									</td>
 								</tr>
-								<tr>
-									<td>SN</td>
-									<td>ModuleName</td>
-									<td>ModuleName OL</td>
-									<td>EntityName</td>
-									<td>Status</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--success m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-								</tr>
-								<tr>
-									<td>SN</td>
-									<td>ModuleName</td>
-									<td>ModuleName OL</td>
-									<td>EntityName</td>
-									<td>Status</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--success m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-								</tr>
-								<tr>
-									<td>SN</td>
-									<td>ModuleName</td>
-									<td>ModuleName OL</td>
-									<td>EntityName</td>
-									<td>Status</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--success m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-								</tr>
-							<tbody>
 							</tbody>
 						</table>
 					</div>
@@ -509,17 +440,16 @@
 				</div>
 				<div class="col-md-12 col-xl-12 col-sm-12 col-xs-12">
 					<h6>Menu List</h6>
-					<hr>
-					<div class="table-responsive">
-						<table class="table table-striped- table-bordered table-hover" id="m_table_menu">
+					<hr><!-- style="display: block; min-height: 300px; max-height: 400px; overflow-y: auto" -->
+					<div class="table-responsive" style="display: block; min-height: 300px; max-height: 400px; overflow-y: auto">
+						<table class="table table-striped- table-bordered table-hover" id="m_table_menu" >
 							<thead>
 								<tr>
 									<th rowspan="2">SN</th>
 									<th rowspan="2">MenuName</th>
-									<th rowspan="2">ParentMenuName</th>
+									<th rowspan="2">ParentMenu</th>
 									<th rowspan="2">ModuleName</th>
-									<th rowspan="2">Branch</th>
-									<th rowspan="2">Status</th>
+									<th rowspan="2">UserName</th>
 									<th colspan="6" style="text-align: center">Actions</th>
 								</tr>
 								<tr>
@@ -531,183 +461,50 @@
 									<th>Approve</th>
 								</tr>
 							</thead>
-								<tr>
-									<td>SN</td>
-									<td>MenuName</td>
-									<td>ParentMenuName</td>
-									<td>ModuleName</td>
-									<td>Branch</td>
-									<td>Status</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--success m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--brand m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--danger m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--accent m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--warning m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--focus m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-								</tr>
-								<tr>
-									<td>SN</td>
-									<td>MenuName</td>
-									<td>ParentMenuName</td>
-									<td>ModuleName</td>
-									<td>Branch</td>
-									<td>Status</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--success m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--brand m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--danger m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--accent m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--warning m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--focus m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-								</tr>
-								<tr>
-									<td>SN</td>
-									<td>MenuName</td>
-									<td>ParentMenuName</td>
-									<td>ModuleName</td>
-									<td>Branch</td>
-									<td>Status</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--success m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--brand m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--danger m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--accent m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--warning m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--focus m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-								</tr>
-								<tr>
-									<td>SN</td>
-									<td>MenuName</td>
-									<td>ParentMenuName</td>
-									<td>ModuleName</td>
-									<td>Branch</td>
-									<td>Status</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--success m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--brand m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--danger m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--accent m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--warning m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--focus m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" >
-											<span></span>
-										</label>
-									</td>
-								</tr>
 							<tbody>
+								<tr *ngFor="let menu of listOfMenus; let i = index">
+									<td>{{i+1}}</td>
+									<td>{{menu.MENU_NAME}}</td>
+									<td>{{menu.PARENT_MENU}}</td>
+									<td>{{menu.MODULE_NAME}}</td>
+									<td>{{menu.USER_NAME}}</td>
+									<td style="text-align: center">
+										<label class="m-checkbox m-checkbox--success m-checkbox--bold m-checkbox--square">
+											<input type="checkbox" value="{{menu.ADURM_ADD}}" [(ngModel)]="menu.IS_ADURM_ADD">
+											<span></span>
+										</label>
+									</td>
+									<td style="text-align: center">
+										<label class="m-checkbox m-checkbox--brand m-checkbox--bold m-checkbox--square">
+											<input type="checkbox" value="{{menu.ADURM_MOD}}" [(ngModel)]="menu.IS_ADURM_MOD">
+											<span></span>
+										</label>
+									</td>
+									<td style="text-align: center">
+										<label class="m-checkbox m-checkbox--danger m-checkbox--bold m-checkbox--square">
+											<input type="checkbox" value="{{menu.ADURM_DEL}}" [(ngModel)]="menu.IS_ADURM_DEL">
+											<span></span>
+										</label>
+									</td>
+									<td style="text-align: center">
+										<label class="m-checkbox m-checkbox--accent m-checkbox--bold m-checkbox--square">
+											<input type="checkbox" value="{{menu.ADURM_VIEW}}" [(ngModel)]="menu.IS_ADURM_VIEW">
+											<span></span>
+										</label>
+									</td>
+									<td style="text-align: center">
+										<label class="m-checkbox m-checkbox--warning m-checkbox--bold m-checkbox--square">
+											<input type="checkbox" value="{{menu.ADURM_PRINT}}" [(ngModel)]="menu.IS_ADURM_PRINT">
+											<span></span>
+										</label>
+									</td>
+									<td style="text-align: center">
+										<label class="m-checkbox m-checkbox--focus m-checkbox--bold m-checkbox--square">
+											<input type="checkbox" value="{{menu.ADURM_SPECIAL}}" [(ngModel)]="menu.IS_ADURM_SPECIAL">
+											<span></span>
+										</label>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

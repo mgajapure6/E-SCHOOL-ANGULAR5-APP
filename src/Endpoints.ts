@@ -13,5 +13,5 @@ export class EndPoint {
     getModuleMenuListEP = this.baseEP + "module/moduleList";
 
     //user-menu master api
-    getUserBranchListEP = this.baseEP+"userMenu/getUserBranchListByUserId";
+    getUserBranchListEP = this.baseEP + "userMenu/getUserBranchListByUserId";
 }

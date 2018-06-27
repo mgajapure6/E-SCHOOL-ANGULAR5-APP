@@ -16,6 +16,7 @@ import { AuthModule } from "./auth/auth.module";
 import { HttpClientModule } from '@angular/common/http';
 import { CommonService } from './_services/common.service';
 import { ToastrModule } from 'ngx-toastr';
+import { DataTablesModule } from 'angular-datatables';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,7 @@ import { ToastrModule } from 'ngx-toastr';
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        ToastrModule.forRoot()
+        ToastrModule.forRoot(),
     ],
     providers: [ScriptLoaderService, ModuleMasterService, UserMenuMasterService, EndPoint, CommonService],
     bootstrap: [AppComponent]

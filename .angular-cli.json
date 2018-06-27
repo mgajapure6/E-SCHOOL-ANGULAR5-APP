@@ -22,7 +22,6 @@
         "styles.scss"
       ],
       "scripts": [
-        "globalScript.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

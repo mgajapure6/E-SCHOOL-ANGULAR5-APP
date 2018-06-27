@@ -28,37 +28,37 @@ export class ModuleMasterComponent implements OnInit, AfterViewInit {
     submitBtnName: string;
     flagVal: string;
     dataId: any;
-    statusArry:any[]=[
+    statusArry: any[] = [
         {
-            value:"Y",
-            name:"Active"
+            value: "Y",
+            name: "Active"
         },
         {
-            value:"N",
-            name:"Inactive"
+            value: "N",
+            name: "Inactive"
         }
     ];
 
-    ngForm : FormGroup;
-    
-    
+    ngForm: FormGroup;
+
+
     constructor(private _script: ScriptLoaderService,
         private moduleMasterService: ModuleMasterService,
         private commonService: CommonService,
         private toastr: ToastrService,
-        private formBuilder : FormBuilder) {
+        private formBuilder: FormBuilder) {
         this.showTable = true;
         this.showForm = false;
 
         this.ngForm = formBuilder.group({
-            MODULE_NAME : new FormControl('', Validators.required),
-            ENTITY_ID : new FormControl('', Validators.required),
-            STATUS : new FormControl('', Validators.required),
+            MODULE_NAME: new FormControl('', Validators.required),
+            ENTITY_ID: new FormControl('', Validators.required),
+            STATUS: new FormControl('', Validators.required),
             MODULE_NAME_OL: "",
             MODULE_SOURCE: "",
             SEQ_NO: "",
         });
-        
+
     }
     ngOnInit() {
         this.resetForm();
@@ -144,7 +144,7 @@ export class ModuleMasterComponent implements OnInit, AfterViewInit {
             this.moduleMasterService.saveUpdateDeleteModule(this.selectedModule).subscribe((res) => {
                 console.log("responseObj :" + JSON.parse(res["responseObj"]));
                 console.log("responseObj status :" + JSON.parse(res["responseObj"]).status);
-                if (JSON.parse(res["responseObj"]).status=="success") {
+                if (JSON.parse(res["responseObj"]).status == "success") {
                     this.resetForm();
                     this.toastr.success('Success', JSON.parse(res["responseObj"]).msg, {
                         closeButton: true,
