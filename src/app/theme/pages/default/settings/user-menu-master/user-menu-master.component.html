@@ -410,113 +410,139 @@
 					</div>
 					<hr>
 				</div>
-				<div class="col-md-12 col-xl-12 col-sm-12 col-xs-12">
-					<h6>Module List</h6>
-					<hr><!-- style="display: block; min-height: 300px; max-height: 400px; overflow-y: auto" -->
-					<div class="table-responsive" >
-						<table class="table table-striped- table-bordered table-hover m_table_module" id="m_table_module" >
-							<thead>
-								<tr>
-									<th>SN</th>
-									<th>ModuleName</th>
-									<th>isApproved</th>
-								</tr>
-							</thead>
-							<tbody >
-								<tr *ngFor="let module of listOfModules; let i = index">
-									<td>{{i+1}}</td>
-									<td>{{module.MODULE_NAME}}</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--success m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" value="{{module.MODULE_CHKED}}" [(ngModel)]="module.IS_CHECKED">
-											<span></span>
-										</label>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+			</div>
+			<ul class="nav nav-tabs  m-tabs-line m-tabs-line--2x m-tabs-line--success" role="tablist">
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_tabs_module" role="tab">
+						Modules List
+					</a>
+				</li>
+				<li class="nav-item m-tabs__item">
+					<a class="nav-link m-tabs__link" data-toggle="tab" href="#m_tabs_menu" role="tab">
+						Menu List
+					</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="m_tabs_module" role="tabpanel">
+					<div class="row">
+						<div class="col-md-12 col-xl-12 col-sm-12 col-xs-12"><!-- style="display: block; min-height: 300px; max-height: 400px; overflow-y: auto" -->
+							<div class="table-responsive" style="display: block; min-height: 200px; max-height: 300px; overflow-y: auto">
+								<table class="table table-striped- table-bordered table-hover m_table_module" id="m_table_module" >
+									<thead>
+										<tr>
+											<th>SN</th>
+											<th>ModuleName</th>
+											<th>isApproved</th>
+										</tr>
+									</thead>
+									<tbody >
+										<tr *ngFor="let module of listOfModules; let i = index">
+											<td>{{i+1}}</td>
+											<td>{{module.MODULE_NAME}}</td>
+											<td style="text-align: center">
+												<label class="m-checkbox m-checkbox--success m-checkbox--bold m-checkbox--square">
+													<input type="checkbox" value="{{module.MODULE_CHKED}}" [(ngModel)]="module.IS_CHECKED" (change)="onModuleRightChange($event,module)">
+													<span></span>
+												</label>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<hr>
+						</div>
 					</div>
-					<hr>
 				</div>
-				<div class="col-md-12 col-xl-12 col-sm-12 col-xs-12">
-					<h6>Menu List</h6>
-					<hr><!-- style="display: block; min-height: 300px; max-height: 400px; overflow-y: auto" -->
-					<div class="table-responsive" style="display: block; min-height: 300px; max-height: 400px; overflow-y: auto">
-						<table class="table table-striped- table-bordered table-hover" id="m_table_menu" >
-							<thead>
-								<tr>
-									<th rowspan="2">SN</th>
-									<th rowspan="2">MenuName</th>
-									<th rowspan="2">ParentMenu</th>
-									<th rowspan="2">ModuleName</th>
-									<th rowspan="2">UserName</th>
-									<th colspan="6" style="text-align: center">Actions</th>
-								</tr>
-								<tr>
-									<th>Add</th>
-									<th>Modify</th>
-									<th>Delete</th>
-									<th>View</th>
-									<th>Print</th>
-									<th>Approve</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let menu of listOfMenus; let i = index">
-									<td>{{i+1}}</td>
-									<td>{{menu.MENU_NAME}}</td>
-									<td>{{menu.PARENT_MENU}}</td>
-									<td>{{menu.MODULE_NAME}}</td>
-									<td>{{menu.USER_NAME}}</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--success m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" value="{{menu.ADURM_ADD}}" [(ngModel)]="menu.IS_ADURM_ADD">
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--brand m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" value="{{menu.ADURM_MOD}}" [(ngModel)]="menu.IS_ADURM_MOD">
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--danger m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" value="{{menu.ADURM_DEL}}" [(ngModel)]="menu.IS_ADURM_DEL">
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--accent m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" value="{{menu.ADURM_VIEW}}" [(ngModel)]="menu.IS_ADURM_VIEW">
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--warning m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" value="{{menu.ADURM_PRINT}}" [(ngModel)]="menu.IS_ADURM_PRINT">
-											<span></span>
-										</label>
-									</td>
-									<td style="text-align: center">
-										<label class="m-checkbox m-checkbox--focus m-checkbox--bold m-checkbox--square">
-											<input type="checkbox" value="{{menu.ADURM_SPECIAL}}" [(ngModel)]="menu.IS_ADURM_SPECIAL">
-											<span></span>
-										</label>
-									</td>
-								</tr>
-							</tbody>
-						</table>
+				<div class="tab-pane" id="m_tabs_menu" role="tabpanel">
+					<div class="row">
+						<div class="col-md-12 col-xl-12 col-sm-12 col-xs-12"><!-- style="display: block; min-height: 300px; max-height: 400px; overflow-y: auto" -->
+							<div class="table-responsive">
+								<table class="table table-striped- table-bordered table-hover" id="m_table_menu" >
+									<thead style="position: sticky;">
+										<tr>
+											<th rowspan="2" style="width:50px">SN</th>
+											<th rowspan="2" style="width:100px">MenuName</th>
+											<th rowspan="2" style="width:100px">ParentMenu</th>
+											<th rowspan="2" style="width:100px">ModuleName</th>
+											<th rowspan="2" style="width:100px">UserName</th>
+											<th colspan="6" style="text-align: center" style="width:350px">Actions</th>
+										</tr>
+										<tr>
+											<th style="width:50px" class="tbl-span-header">Add</th>
+											<th style="width:50px" class="tbl-span-header">Modify</th>
+											<th style="width:50px" class="tbl-span-header">Delete</th>
+											<th style="width:50px" class="tbl-span-header">View</th>
+											<th style="width:50px" class="tbl-span-header">Print</th>
+											<th style="width:50px" class="tbl-span-header">Approve</th>
+										</tr>
+									</thead>
+									<tbody style="max-height: 400px;overflow-y: auto;">
+										<tr *ngFor="let menu of listOfMenus; let i = index">
+											<td style="width:50px">{{i+1}}</td>
+											<td style="width:100px">{{menu.MENU_NAME}}</td>
+											<td style="width:100px">{{menu.PARENT_MENU}}</td>
+											<td style="width:100px"><input type="hidden" [value]="menu.MODULE_ID" />{{menu.MODULE_NAME}}</td>
+											<td style="width:100px">{{menu.USER_NAME}}</td>
+											<td style="width:50px" style="text-align: center">
+												<label class="m-checkbox m-checkbox--success m-checkbox--bold m-checkbox--square">
+													<input type="checkbox" value="{{menu.ADURM_ADD}}" [(ngModel)]="menu.IS_ADURM_ADD">
+													<span></span>
+												</label>
+											</td>
+											<td style="width:50px" style="text-align: center">
+												<label class="m-checkbox m-checkbox--brand m-checkbox--bold m-checkbox--square">
+													<input type="checkbox" value="{{menu.ADURM_MOD}}" [(ngModel)]="menu.IS_ADURM_MOD">
+													<span></span>
+												</label>
+											</td>
+											<td style="width:50px" style="text-align: center">
+												<label class="m-checkbox m-checkbox--danger m-checkbox--bold m-checkbox--square">
+													<input type="checkbox" value="{{menu.ADURM_DEL}}" [(ngModel)]="menu.IS_ADURM_DEL">
+													<span></span>
+												</label>
+											</td>
+											<td style="width:50px" style="text-align: center">
+												<label class="m-checkbox m-checkbox--accent m-checkbox--bold m-checkbox--square">
+													<input type="checkbox" value="{{menu.ADURM_VIEW}}" [(ngModel)]="menu.IS_ADURM_VIEW">
+													<span></span>
+												</label>
+											</td>
+											<td style="width:50px" style="text-align: center">
+												<label class="m-checkbox m-checkbox--warning m-checkbox--bold m-checkbox--square">
+													<input type="checkbox" value="{{menu.ADURM_PRINT}}" [(ngModel)]="menu.IS_ADURM_PRINT">
+													<span></span>
+												</label>
+											</td>
+											<td style="width:50px" style="text-align: center">
+												<label class="m-checkbox m-checkbox--focus m-checkbox--bold m-checkbox--square">
+													<input type="checkbox" value="{{menu.ADURM_SPECIAL}}" [(ngModel)]="menu.IS_ADURM_SPECIAL">
+													<span></span>
+												</label>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<hr>
+						</div>
 					</div>
-					<hr>
 				</div>
-			</div> 
+			</div>
 		</div>
 		<div class="m-portlet__foot">
 			<div class="row">
-				<div class="col-md-4"></div>
-				<div class="col-md-8">
-					<button type="submit"  class="btn btn-outline-info m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
+				<div class="col-md-3"></div>
+				<div class="col-md-9">
+					<a href="#" (click)="toggleTableAndForm('',null);" class="btn btn-danger m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
+						<span>
+							<i class="la la-arrow-circle-o-left"></i>
+							<span>
+								Back To List
+							</span>
+						</span>
+					</a>
+					<button type="button" (click)="saveUpdateDeleteUserMenuRight()"  class="btn btn-outline-info m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
 						{{submitBtnName}}
 					</button>
 					<button type="button" (click)="resetForm()" class="btn btn-secondary m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">

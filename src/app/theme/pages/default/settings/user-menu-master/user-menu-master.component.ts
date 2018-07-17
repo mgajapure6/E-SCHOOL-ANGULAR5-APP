@@ -90,7 +90,7 @@ export class UserMenuMasterComponent implements OnInit, AfterViewInit, OnDestroy
                 this.submitBtnName = 'Update Rights';
                 this.showTable = false;
                 this.showForm = true;
-                this.selectedUser = user;//listOfUserBranchDetail
+                this.selectedUser = user;
                 this.userMenuMasterService.getUserBranchList(user.prop2).subscribe((res) => {
                     //console.log("User list :"+res["helpList"]);
                     this.listOfUserBranchDetail = JSON.parse(res["branchList"]);
@@ -106,6 +106,7 @@ export class UserMenuMasterComponent implements OnInit, AfterViewInit, OnDestroy
                 this.showForm = true;
             }
         } else {
+            this.resetForm();
             this.initUserDt();
             this.showTable = true;
             this.showForm = false;
@@ -143,6 +144,11 @@ export class UserMenuMasterComponent implements OnInit, AfterViewInit, OnDestroy
             // console.log("module list :"+this.listOfModules);
             for (let i = 0; i <= localListOfMenus.length - 1; i++) {
                 let menu: MENU = localListOfMenus[i];
+                // for(module of this.listOfModules){
+                //     if(module.MODULE_ID==menu.MODULE_ID){
+                //         menu.module=module;
+                //     }
+                // }
                 if (menu.ADURM_ADD == "Y") {
                     menu.IS_ADURM_ADD = true;
                 }
@@ -163,39 +169,81 @@ export class UserMenuMasterComponent implements OnInit, AfterViewInit, OnDestroy
                 }
                 this.listOfMenus.push(menu);
             }
-            //this.initMenuDt();
+
+            this.listOfMenus.sort((a,b)=>{
+                if (a.MODULE_NAME < b.MODULE_NAME){
+                    return -1;
+                }
+                if (a.MODULE_NAME > b.MODULE_NAME){
+                    return 1;
+                }
+                return 0;
+            });
         });
     }
 
-    saveUpdateDeleteUserMenuRight(form: NgForm) {
-        if (form) {
-
-        } else {
-            this.toastr.error('Failed', 'You have form errors.', {
-                closeButton: true
-            });
+    onModuleRightChange(event,module:MODULE){
+        console.log("isChecked :"+event.target.checked);
+        console.log("event module :"+JSON.stringify(module));
+        if(event.target.checked){
+            this.getMenuList(module);
+        }else{
+            let count = 0;
+            var i = this.listOfMenus.length;
+            while (i--) {
+                if(this.listOfMenus[i].MODULE_ID==module.MODULE_ID){
+                    count=count+1;
+                    // console.log("count :"+count) ;
+                    // console.log("menu :"+JSON.stringify(this.listOfMenus[i])) ;
+                    this.listOfMenus.splice(i,1);
+                }
+            }
         }
     }
 
-    resetForm() {
+    saveUpdateDeleteUserMenuRight() {
+        this.userMenuMasterService.saveUpdateDeleteUserMenuRight(this.selectedUser,this.listOfMenus,this.listOfModules,this.defaultBranchId).subscribe((res)=>{
+            console.log("res"+JSON.stringify(res));
+            console.log("msg"+res["msg"]);
+            if(res["msg"]=="Ok"){
+                console.log("res"+JSON.stringify(res));
+                this.toastr.success('Success', 'Record Saved Successfully.', {
+                    closeButton: true
+                });
+            }else{
+                this.toastr.error('Failed', res["msg"], {
+                    closeButton: true
+                });
+            }
+        });
+    }
 
+    resetForm() {
+        this.defaultBranchId=null;
+        this.listOfMenus=null;
+        this.listOfModules=null;
+        this.listOfUserBranchDetail=null;
+        this.selectedMenus=null;
+        this.selectedModules=null;
     }
 
 }
 
 
-class MODULE {
-    MODULE_ID: any;
+export class MODULE {
+    MODULE_ID: number;
     MODULE_NAME: any;
     MODULE_CHKED: any;
     IS_CHECKED: boolean = false;
 }
 
-class MENU {
+export class MENU {
+    module ?: MODULE;
+
     BRANCH_MST_ID: any;
-    MODULE_ID: any;
+    MODULE_ID: number;
     MODULE_NAME: any;
-    MENU_MST_ID: any;
+    MENU_MST_ID: number;
     MENU_NAME: any;
     USER_MENU_ID: any;
     USERID: any;

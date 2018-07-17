@@ -14,4 +14,5 @@ export class EndPoint {
 
     //user-menu master api
     getUserBranchListEP = this.baseEP + "userMenu/getUserBranchListByUserId";
+    saveUpdateDeleteUserMenuRight = this.baseEP+"userMenu/saveUserMenuRights";
 }
